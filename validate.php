@@ -26,7 +26,6 @@
 			}
 			$_SESSION['session'] = true;
 			$_SESSION['usermode'] = "user";
-			
 		}
 		
 	}
