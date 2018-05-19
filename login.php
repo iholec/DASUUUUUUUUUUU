@@ -13,4 +13,8 @@
     if($_SESSION['invalidUser']){
 	echo "Wrong User Name or Password";
     }
+    if($_SESSION['notFilled']){
+	echo "Please fill in everything";
+    }
+
 ?>

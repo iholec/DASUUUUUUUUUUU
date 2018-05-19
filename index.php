@@ -1,11 +1,16 @@
 <?php
 session_start();
+$_SESSION['csrf_token'] = uniqid('', true);
 if(!isset($_SESSION['session'])){
     $_SESSION['session'] = false;
 }
 
 if(!isset($_SESSION['invalidUser'])){
     $_SESSION['invalidUser'] = false;
+}
+
+if(!isset($_SESSION['notFilled'])){
+    $_SESSION['notFilled'] = false;
 }
 
 if(!isset($_SESSION['loginname'])){
@@ -30,8 +35,14 @@ if(isset($_COOKIE['loginname']) AND isset($_COOKIE['loginpw'])){
         <!--<link rel="stylesheet" type="text/css" href="stylesheet.css" />-->
     </head>
     <body>
-        <div id="login">
-            <?php include "login.php";?>
+	<div id="login">
+		<?php 
+			if($_SESSION['session']){
+				include "loggedin.php";
+			}else{
+            			include "login.php";
+			}
+		?>
         </div>
     </body>
 </html>
