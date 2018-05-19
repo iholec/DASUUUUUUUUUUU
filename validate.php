@@ -1,6 +1,6 @@
 <?php
 	include("config.php");
-      
+            	echo "ihdkjfhsjfhnk,sfnhsk,fhnk,sfnhk,shfn";
       	$myusername = mysqli_real_escape_string($db,$_POST['loginname']);
       	$mypassword = mysqli_real_escape_string($db,$_POST['loginpw']); 
       
