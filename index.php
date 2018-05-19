@@ -4,6 +4,10 @@ if(!isset($_SESSION['session'])){
     $_SESSION['session'] = false;
 }
 
+if(!isset($_SESSION['invalidUser'])){
+    $_SESSION['invalidUser'] = false;
+}
+
 if(!isset($_SESSION['usermode'])){
     $_SESSION['usermode'] = "anonym";
 }

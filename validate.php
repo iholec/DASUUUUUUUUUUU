@@ -1,16 +1,21 @@
 <?php
-	$user = 'test';
-	$pass = '12345';
-	
-	$admin = 'admin';
-	$adminpass = '12345';
-	
+	include("config.php");
+      
+      	$myusername = mysqli_real_escape_string($db,$_POST['loginname']);
+      	$mypassword = mysqli_real_escape_string($db,$_POST['loginpw']); 
+      
+	$stmt = $conn->prepare("SELECT password FROM users WHERE username = ?");
+	$stmt->bind_param("s", $myusername);
+      	$result = mysqli_query($db,$stmt);
+      	$row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+      	$active = $row['active'];
+     
 	if(isset($_POST['login'])){
 		
 		$_SESSION['loginname'] = $_POST['loginname'];
 		$_SESSION['loginpw'] = $_POST['loginpw'];
 		
-		if(($_SESSION['loginname'] == $user) AND ($_SESSION['loginpw'] == $pass)){
+		if($result == $mypassword){
 			
 			if(isset($_POST['rememberme'])){
 				setcookie('loginname', $_SESSION['loginname'], time()+60*60*7);
@@ -19,20 +24,13 @@
 			$_SESSION['session'] = true;
 			$_SESSION['usermode'] = "user";
 			
-		}else if (($_SESSION['loginname'] == $admin) AND ($_SESSION['loginpw'] == $adminpass)){
-			
-			if(isset($_POST['rememberme'])){
-				setcookie('loginname', $_SESSION['loginname'], time()+60*60*7);
-				setcookie('loginpw', $_SESSION['loginpw'], time()+60*60*7);
-			}
-			$_SESSION['session'] = true;
-			$_SESSION['usermode'] = "admin";
 		}
 		
 	}
 	if($_SESSION['session'] == true){
 		include "loggedin.php";
 	}else{
+		$_SESSION['invalidUser'] = true;
 		include "login.php";
-	} 
+	}
 ?>
