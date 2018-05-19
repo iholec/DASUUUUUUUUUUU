@@ -1,6 +1,8 @@
 <?php
 session_start();
-$_SESSION['csrf_token'] = uniqid('', true);
+if(!isset($_SESSION['csrf_token'])){
+    $_SESSION['csrf_token'] = uniqid('', true);
+}
 if(!isset($_SESSION['session'])){
     $_SESSION['session'] = false;
 }
