@@ -1,33 +1,56 @@
 <?php
 	include("config.php");
-            	echo "ihdkjfhsjfhnk,sfnhsk,fhnk,sfnhk,shfn";
-      	$myusername = mysqli_real_escape_string($db,$_POST['loginname']);
-      	$mypassword = mysqli_real_escape_string($db,$_POST['loginpw']); 
-      
-	$stmt = $conn->prepare("SELECT password FROM users WHERE username = ?");
-	$stmt->bind_param("s", $myusername);
-      	$result = mysqli_query($db,$stmt);
-      	$row = mysqli_fetch_array($result,MYSQLI_ASSOC);
-      	$active = $row['active'];
+      	$myusername = mysqli_real_escape_string($conn,$_POST['loginname']);
+      	$mypassword = mysqli_real_escape_string($conn,$_POST['loginpw']); 
+	$salt = "salt";
+
+	if ($stmt = $conn->prepare("SELECT password FROM user WHERE username = ? AND password = ?")) {
+		
+		$pwdhash = (string)hash('sha256',$mypassword.$salt);
+
+	    	$stmt->bind_param("ss", $myusername, $pwdhash);
+
+	    	/* execute query */
+	    	$stmt->execute();
+
+      		$result = mysqli_query($conn,$stmt);
+
+	    	/* bind result variables */
+	    	$stmt->bind_result($result);
+
+	    	/* fetch value */
+	    	$stmt->fetch();
+
+	    	/* close statement */
+	    	$stmt->close();
+	}else{
+		echo "Invalid Query";	
+	}
+	
+	$loggedIn = false;
      
 	if(isset($_POST['login'])){
 		
 		$_SESSION['loginname'] = $_POST['loginname'];
 		$_SESSION['loginpw'] = $_POST['loginpw'];
 		
-		if($result == $mypassword){
+		if($result == $pwdhash){
 			
 			if(isset($_POST['rememberme'])){
 				setcookie('loginname', $_SESSION['loginname'], time()+60*60*7);
-				setcookie('loginpw', md5($_SESSION['loginpw']), time()+60*60*7);
+				setcookie('loginpw', hash('sha256',$_SESSION['loginpw'].$salt), time()+60*60*7);
 			}
-			$_SESSION['session'] = true;
-			$_SESSION['usermode'] = "user";
-			
+
+			$loggedIn = true;
 		}
 		
 	}
-	if($_SESSION['session'] == true){
+
+
+	if($myusername == "" || $mypassword == ""){
+		$_SESSION['invalidUser'] = true;
+		include "login.php";
+	}else if($loggedIn){
 		include "loggedin.php";
 	}else{
 		$_SESSION['invalidUser'] = true;

@@ -8,20 +8,12 @@ if(!isset($_SESSION['invalidUser'])){
     $_SESSION['invalidUser'] = false;
 }
 
-if(!isset($_SESSION['usermode'])){
-    $_SESSION['usermode'] = "anonym";
-}
-
 if(!isset($_SESSION['loginname'])){
     $_SESSION['loginname'] = "";
 }
 
 if(!isset($_SESSION['loginpw'])){
     $_SESSION['loginpw'] = "";
-}
-
-if(!isset($_SESSION['section'])){
-    $_SESSION['section'] = "home";
 }
 if(isset($_COOKIE['loginname']) AND isset($_COOKIE['loginpw'])){
 
