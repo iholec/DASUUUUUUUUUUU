@@ -18,8 +18,11 @@
 		if($result == $mypassword){
 			
 			if(isset($_POST['rememberme'])){
-				setcookie('loginname', $_SESSION['loginname'], time()+60*60*7);
-				setcookie('loginpw', md5($_SESSION['loginpw']), time()+60*60*7);
+				#domain 'localhost': only accessible by localhost domain, 
+				#secure true: only set if secure connection, 
+				#httponly true: only accessible by http protocol (not by scripting languages)	
+				setcookie('loginname', $_SESSION['loginname'], time()+60*60*7, '/', 'localhost', true, true); 
+				setcookie('loginpw', md5($_SESSION['loginpw']), time()+60*60*7, '/', 'localhost', true, true);
 			}
 			$_SESSION['session'] = true;
 			$_SESSION['usermode'] = "user";
