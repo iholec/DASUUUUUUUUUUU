@@ -2,6 +2,7 @@
 	session_start();
 	if($_SESSION['csrf_token'] !== $_POST['csrf']){
 		echo 'Invalid csrf token! '.$_SESSION['csrf_token'].', '.$_POST['csrf'];
+		include 'loggedin.php';
 	}else{
 		session_destroy();
 		if(isset($_COOKIE['username']) AND isset($_COOKIE['password'])){
@@ -12,12 +13,12 @@
 		}
 		session_start();
 		unset($_SESSION['session']);
-		unset($_SESSION['usermode']);
-		unset($_SESSION['username']);
-		unset($_SESSION['password']);
-		unset($_SESSION['content']);
-		unset($_SESSION['section']);
-		header('Location: index.php');
+		unset($_SESSION['loginname']);
+		unset($_SESSION['loginpw']);
+		unset($_SESSION['invalidUser']);
+		unset($_SESSION['notFilled']);
 	}
-	include 'loggedin.php';
+	//header('HTTP/1.1 401 Unauthorized');
+	header('Location: index.php');
+	exit();
 ?>

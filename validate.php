@@ -99,12 +99,16 @@
 		}
 
 	}
-	if(($_SESSION['loginname'] == "" || $_SESSION['loginpw'] == "")&&isset($_POST['login'])){
+	if($_SESSION['loginname'] == "" || $_SESSION['loginpw'] == ""){
+		$_SESSION['invalidUser'] = false;
 		$_SESSION['notFilled'] = true;
 		include "login.php";
 	}else if($loggedIn){
+		$_SESSION['notFilled'] = false;
+		$_SESSION['invalidUser'] = false;
 		include "loggedin.php";
 	}else{
+		$_SESSION['notFilled'] = false;
 		$_SESSION['invalidUser'] = true;
 		include "login.php";
 	}
