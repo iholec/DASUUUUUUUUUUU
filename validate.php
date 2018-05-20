@@ -98,7 +98,7 @@
 		}
 
 	}
-	if($_SESSION['loginname'] == "" || $_SESSION['loginpw'] == ""){
+	if(($_SESSION['loginname'] == "" || $_SESSION['loginpw'] == "")&&isset($_POST['login'])){
 		$_SESSION['notFilled'] = true;
 		include "login.php";
 	}else if($loggedIn){
