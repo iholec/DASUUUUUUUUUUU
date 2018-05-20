@@ -45,7 +45,7 @@
 				setcookie('loginname', $_SESSION['loginname'], time()+60*60*7, '/', 'localhost', true, true); 
 				setcookie('loginpw', md5($_SESSION['loginpw']), time()+60*60*7, '/', 'localhost', true, true);
 			}
-			$loggedIn = true;
+			$_SESSION['loggedIn'] = true;
 		}
 		
 	}else if(isset($_POST['digestlogin'])){	
@@ -89,7 +89,7 @@
 			{ 
 				$_SESSION['loginname'] = $username;
 				$_SESSION['loginpw'] = $pw;
-				$loggedIn = true;
+				$_SESSION['loggedIn'] = true;
 			}
 		}else{
 			// Failed, or haven't been prompted yet
@@ -99,17 +99,20 @@
 		}
 
 	}
-	if($_SESSION['loginname'] == "" || $_SESSION['loginpw'] == ""){
-		$_SESSION['invalidUser'] = false;
-		$_SESSION['notFilled'] = true;
-		include "login.php";
-	}else if($loggedIn){
+
+	if($_SESSION['loggedIn']){
 		$_SESSION['notFilled'] = false;
 		$_SESSION['invalidUser'] = false;
-		include "loggedin.php";
+		//include "loggedin.php";
+	}else if(
+		$_SESSION['loginname'] == "" || $_SESSION['loginpw'] == ""){
+		$_SESSION['invalidUser'] = false;
+		$_SESSION['notFilled'] = true;
+		//include "login.php";
 	}else{
 		$_SESSION['notFilled'] = false;
 		$_SESSION['invalidUser'] = true;
-		include "login.php";
+		//include "login.php";
 	}
+	header('Location: index.php');
 ?>

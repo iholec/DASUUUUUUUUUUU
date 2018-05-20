@@ -17,6 +17,7 @@
 		unset($_SESSION['loginpw']);
 		unset($_SESSION['invalidUser']);
 		unset($_SESSION['notFilled']);
+		unset($_SESSION['loggedIn']);
 	}
 	//header('HTTP/1.1 401 Unauthorized');
 	header('Location: index.php');
