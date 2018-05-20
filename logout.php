@@ -1,6 +1,7 @@
 <?php
+	session_start();
 	if($_SESSION['csrf_token'] !== $_POST['csrf']){
-		echo 'Invalid csrf token!';
+		echo 'Invalid csrf token! '.$_SESSION['csrf_token'].', '.$_POST['csrf'];
 	}else{
 		session_destroy();
 		if(isset($_COOKIE['username']) AND isset($_COOKIE['password'])){
